@@ -1,0 +1,59 @@
+<form [formGroup]="adminform">
+    <label>name</label>
+    <input type="text" formControlName="name">
+    <div class="error"
+    *ngIf="adminControl['name'].invalid && (adminControl['name'].dirty || adminControl['name'].touched)">
+    <span class="error-type" *ngIf="adminControl['name'].errors?.['required']">
+        name is required
+    </span>
+    <span class="error-type" *ngIf="adminControl['name'].errors?.['minlength']">
+        Minimum length must be 3 characters
+    </span>
+    </div>
+
+</form>
+<p-button  (click)="addValue()">add</p-button>
+
+
+
+<p-button  (click)="getValue()">get</p-button>
+
+
+
+
+<p-table
+  [value]="items"
+  [paginator]="true"
+  [rows]="rows"
+  [showCurrentPageReport]="true"
+  [tableStyle]="{ 'min-width': '50rem' }"
+  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+  (onPage)="pageChange($event)"
+  [rowsPerPageOptions]="[10, 25, 50]"
+  [scrollable]="true" scrollHeight="400px"
+>
+  <ng-template pTemplate="header">
+      <tr>
+          <th style="width:25%">Id</th>
+          <th style="width:25%">Name</th>
+          <th style="width:25%">Actions</th> <!-- New column for actions -->
+      </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-item>
+      <tr>
+        <td>{{ item.id }}</td>
+        <td>{{ item.name }}</td>
+        <td>
+          <button (click)="editItem(item)">Edit</button>
+          <button (click)="deleteItem(item.id)">Delete</button>
+        </td>
+      </tr>
+  </ng-template>
+</p-table>
+
+<form [formGroup]="editform" *ngIf="isEditFormVisible">
+
+<label>name</label>
+    <input type="text" formControlName="name">
+<p-button  (click)="updateValue()">update</p-button>
+</form>
